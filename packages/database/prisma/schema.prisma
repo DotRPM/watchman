@@ -1,0 +1,57 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["fullTextSearch", "fullTextIndex"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String  @id @default(uuid())
+  firstName String?
+  lastName  String?
+  email     String  @unique
+
+  verification   Verification? @relation(fields: [verificationId], references: [id])
+  verificationId String?
+
+  products Product[]
+
+  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now())
+}
+
+model Verification {
+  id  String @id @default(uuid())
+  otp Int
+
+  user User[]
+
+  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now())
+}
+
+model Product {
+  id String @id @default(uuid())
+
+  url      String
+  title    String
+  currency String
+  image    String
+  price    Int
+
+  interval  Int
+  threshold Int
+  updates   Int[]
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

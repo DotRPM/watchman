@@ -1,0 +1,24 @@
+{
+  "name": "dot-price",
+  "version": "0.0.1",
+  "private": true,
+  "license": "UNLICENSED",
+  "engines": {
+    "node": "18.18.0"
+  },
+  "scripts": {
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "start": "node apps/api/dist/main",
+    "db:dev": "dotenv -e .env turbo run db:dev",
+    "db:deploy": "dotenv -e .env turbo run db:deploy"
+  },
+  "devDependencies": {
+    "turbo": "^1.10.13",
+    "dotenv-cli": "latest"
+  },
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ]
+}
